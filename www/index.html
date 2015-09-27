@@ -1,0 +1,263 @@
+<!DOCTYPE HTML>
+<html ng-app="myApp">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/angular-sanitize.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controller.js"></script>
+</head>
+<body>  
+
+    <ons-navigator page="signup.html" var="app.navi"></ons-navigator>
+  
+    <ons-template id="signup.html">
+    <div ng-controller="signupCtrl as ctrl">
+        <ons-toolbar>
+            <div class="center">会員登録</div>
+        </ons-toolbar>
+        <div style="padding: 10px;">
+        <p>
+        <input type="text" class="text-input" style="width:100%" placeholder="username or email" ng-model="ctrl.username"/>
+        </p>
+        <p>
+        <input type="password" class="text-input" style="width:100%" placeholder="password" ng-model="ctrl.password"/>
+        </p>
+        <p>    
+        <ons-button modifier="large" ng-click="ctrl.onSignup()">会員登録</ons-button>
+        </p>
+        <p>    
+        <ons-button modifier="large" ng-click="ctrl.onGoLogin()">ログインへ</ons-button>
+        </p>
+        <p ng-bind-html="ctrl.sample"></p>
+        </div>
+    </div>
+    </ons-template>
+
+    <ons-template id="login.html">
+    <div ng-controller="loginCtrl as ctrl">
+        <ons-toolbar>
+            <div class="center">ログイン</div>
+        </ons-toolbar>
+        <div style="padding: 10px;">
+        <p>
+        <input type="text" class="text-input" style="width:100%" placeholder="username or email" ng-model="ctrl.username"/>
+        </p>
+        <p>
+        <input type="password" class="text-input" style="width:100%" placeholder="password" ng-model="ctrl.password"/>
+        </p>
+        <p>    
+        <ons-button modifier="large" style="" ng-click="ctrl.onLogin()">ログイン</ons-button>
+        </p>
+        <p>
+        <ons-button modifier="large" style="" ng-click="ctrl.onGoSignup()">会員登録へ</ons-button>
+        </p>
+        </div>
+    </div>
+    </ons-template>
+
+    <ons-template id="first.html">
+    <div ng-controller="firstCtrl as ctrl">
+    </div>
+    </ons-template>
+
+    <ons-template id="top.html">
+    <div ng-controller="topCtrl as ctrl">
+        <ons-toolbar>
+            <div class="center">アイディアを登録する</div>
+        </ons-toolbar>
+        <div style="padding:10px;">
+        <p>
+        <textarea class="textarea" rows="3" style="width:100%" placeholder="メモを入力する" ng-model="ctrl.memo"></textarea>
+        </p>
+        <p>    
+        <ons-button modifier="large" style="" ng-click="ctrl.onSave()">メモを登録する</ons-button>
+        </p>
+        </div> 
+    </div>
+    </ons-template>
+  
+    <ons-template id="top2.html">
+    <div style="" ng-controller="topCtrl as ctrl">
+        <ons-toolbar>
+            <div class="center">MYIDEA</div>
+            <div class="right">
+            <ons-toolbar-button ng-click="ctrl.onMenu()">
+            <ons-icon icon="ion-navicon" style="font-size: 32px; width: 1em">
+            </ons-toolbar-button>                          
+            </div>
+        </ons-toolbar>
+        <ons-list>
+            <ons-list-item>
+                <ons-row>
+                TEST
+                </ons-row>
+            </ons-list-item>
+            <ons-list-item class="list__item--tappable list__item__line-height" 
+                ng-init="" ng-repeat="book in ctrl.getBooks()">
+            <ons-row>            
+                <ons-col ng-click="ctrl.onBook($index)">
+                    <span class="list-text">{{book.title}}&nbsp;({{book.result.correctTotal}}/{{book.result.total}})</span>                    
+                </ons-col>
+                <ons-col width="25px" ng-click="ctrl.onDeleteBook($index,$event)">
+                    <span >
+                    <ons-icon icon="ion-trash-b"></ons-icon>
+                    </span>
+                </ons-col>
+            </ons-row>    
+            </ons-list-item>
+        </ons-list> 
+    </div>
+    </ons-template>
+
+    <ons-template id="top_menu_dialog.html">
+    <ons-dialog var="app.topMenuDialog" cancelable ng-controller="topMenuDialogCtrl as ctrl">
+        <ons-toolbar inline>
+            <div class="center">
+            メニュー
+            </div>
+        </ons-toolbar>    
+        <div style="padding:10px">
+        <p>
+            <ons-button modifier="large" ng-click="ctrl.goHowto()">使い方</ons-button>
+        </p>
+        <p>
+            <ons-button modifier="large" ng-click="ctrl.goLoadSample()">サンプルを読み込む</ons-button>
+        </p>
+        <p>
+            <ons-button modifier="large" ng-click="ctrl.goLoadUrl()">URLから読み込む</ons-button>
+        </p>
+        </div>
+    </ons-dialog>
+    </ons-template>
+
+
+    <ons-template id="howto.html">
+    <div style="" ng-controller="howtoCtrl as ctrl">
+        <ons-toolbar>
+            <div class="left"><ons-back-button>Back</ons-back-button></div>    
+            <div class="center">使い方</div>
+        </ons-toolbar>
+        <div style="padding:10px">
+        問題をUTF-8テキストファイルで作成し、読取可能なURLに置いてください。<br />
+        「URLから読み込む」でURLを入力し、アプリに問題を読み込みます。
+        </div>
+        <div style="padding:10px">
+        問題テキストファイルサンプル
+        <textarea class="textarea" rows="10" style="width:100%;" readonly="true">{{ctrl.data}}</textarea>
+        </div>
+    </div>
+    </ons-template>
+
+    <ons-template id="load_sample.html">
+    <div style="" ng-controller="loadSampleCtrl as ctrl">
+        <ons-toolbar>
+            <div class="left"><ons-back-button>Back</ons-back-button></div>    
+            <div class="center">サンプルを読み込む</div>
+        </ons-toolbar>
+        <div style="padding:10px">
+        <p>
+            <ons-button modifier="large" ng-click="ctrl.onLoadSample('qa.txt')">サンプル1を読み込む</ons-button>
+        </p>
+        <p>
+            <ons-button modifier="large" ng-click="ctrl.onLoadSample('qa2.txt')">サンプル2を読み込む</ons-button>
+        </p>
+        </div>    
+    </div>
+    </ons-template>
+
+    <ons-template id="load_url.html">
+    <div style="" ng-controller="loadUrlCtrl as ctrl">
+        <ons-toolbar>
+            <div class="left"><ons-back-button>Back</ons-back-button></div>    
+            <div class="center">URLから読み込む</div>
+        </ons-toolbar>
+        <div style="padding:10px">
+        <p>
+        <input type="text" class="text-input" style="width:100%" placeholder="URLを入力" ng-model="ctrl.url"/>
+        </p>
+        <p>
+        <ons-button modifier="large" style="" ng-click="ctrl.onLoad()">
+          読み込む
+        </ons-button>
+        </p>        
+        <p>
+        既に読み込み済みの問題の場合、結果も上書きします。
+        </p>
+        </div> 
+    </div>
+    </ons-template>
+
+    <ons-template id="question.html">
+    <div style="padding:10px" ng-controller="questionCtrl as ctrl">
+        <ons-toolbar>
+            <div class="center">{{ctrl.index+1}}/{{ctrl.total}}</div>
+            <div class="right">
+            <ons-toolbar-button ng-click="ctrl.onExit()">
+            <span>終了</span>
+            </ons-toolbar-button>                          
+            </div>
+        </ons-toolbar>
+
+        <div ng-bind-html="ctrl.q"></div>
+        
+        <ons-bottom-toolbar>
+        <div class="bottom-bar__line-height">    
+        <ons-row>
+        <ons-col width="9px"></ons-col>
+        <ons-col>
+        <div class="button-bar" style="width:100%;margin:0 auto;">
+        <div class="button-bar__item" ng-repeat="choice in ctrl.choices">
+            <button class="button-bar__button" ng-click="ctrl.goAnswer($index+1)">{{choice}}</button>
+        </div>
+        </div>
+        </ons-col>
+        <ons-col width="9px"></ons-col>
+        <ons-col width="50px">
+            <ons-button class="button--quiet" ng-click="ctrl.goPass()">パス</ons-button>        
+        </ons-col>
+        <ons-col width="9px"></ons-col>
+        </ons-row>
+    </div>    
+    </ons-bottom-toolbar>
+    </div>
+    </ons-template>
+    
+    <ons-template id="answer_dialog.html">
+    <ons-dialog var="app.answerDialog" cancelable ng-controller="answerDialogCtrl as ctrl">
+        <ons-toolbar inline>
+            <div class="center">
+            結果
+            </div>
+        </ons-toolbar>    
+        <div style="padding:10px">
+        <p ng-if="ctrl.isCorrect==true">
+            正解です。
+        </p>    
+        <p ng-if="ctrl.isCorrect==false">
+            不正解です。
+        </p>    
+        <p>
+            <ons-button modifier="large" ng-click="app.answerDialog.hide()">次へ</ons-button>
+        </p>
+        </div>
+    </ons-dialog>
+    </ons-template>
+
+
+    <ons-template id="result.html">
+    <div style="padding:10px" ng-controller="resultCtrl as ctrl">
+        <ons-toolbar>
+            <div class="center">結果</div>
+        </ons-toolbar>
+        <div>全{{ctrl.total}}問中、{{ctrl.correctTotal}}問正解です。</div>
+        <br>
+        <ons-button modifier="large" style="" ng-click="ctrl.goTop()">TOPへ戻る</ons-button>        
+    </div>
+    </ons-template>
+
+</body>
+</html>
