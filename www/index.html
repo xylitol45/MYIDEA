@@ -12,8 +12,33 @@
 </head>
 <body>  
 
-    <ons-navigator page="signup.html" var="app.navi"></ons-navigator>
-  
+    <ons-navigator page="first.html" var="app.navi"></ons-navigator>
+
+    <ons-template id="first.html">
+    <div ng-controller="firstCtrl as ctrl">
+        <ons-toolbar>
+            <div class="center">FIRST</div>
+        </ons-toolbar>
+        <div style="padding:10px;">
+        <p ng-show="ctrl.loading"><ons-icon icon='fa-spinner' spin='true' style="opacity:0.7;"></ons-icon> 接続中...</p>
+        <p ng-hide="ctrl.loading">ネットワークに接続されてません</p>
+        <p>    
+        <ons-button modifier="large" ng-disabled="ctrl.loading" ng-click="ctrl.onGoLogin()">再接続</ons-button>
+        </p>
+        </div>
+    </div>
+    </ons-template>
+
+    <ons-template id="top.html">
+    <div ng-controller="topCtrl as ctrl">
+        <ons-toolbar>
+            <div class="center">TOP</div>
+        </ons-toolbar>
+        <div style="padding:10px;">
+        </div> 
+    </div>
+    </ons-template>
+
     <ons-template id="signup.html">
     <div ng-controller="signupCtrl as ctrl">
         <ons-toolbar>
@@ -32,7 +57,7 @@
         <p>    
         <ons-button modifier="large" ng-click="ctrl.onGoLogin()">ログインへ</ons-button>
         </p>
-        <p ng-bind-html="ctrl.sample"></p>
+        <p>{{ctrl.sample}}</p>
         </div>
     </div>
     </ons-template>
@@ -59,12 +84,7 @@
     </div>
     </ons-template>
 
-    <ons-template id="first.html">
-    <div ng-controller="firstCtrl as ctrl">
-    </div>
-    </ons-template>
-
-    <ons-template id="top.html">
+    <ons-template id="top2.html">
     <div ng-controller="topCtrl as ctrl">
         <ons-toolbar>
             <div class="center">アイディアを登録する</div>
