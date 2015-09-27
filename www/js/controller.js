@@ -1,38 +1,22 @@
-/**
-controller.js
-
-Copyright (c) 2015 xylitol45
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
 (function(){
     'use strict';
     
-    angular.module("controllerModule", ['ngSanitize'])
-    .controller('firstCtrl',['shared',function(shared){
-        
-        console.log(shared.uuid());
-/*
-var memo = MC.Collection("memo_collection");
-memo.findOneMine(CRITERIA)
-.then(function(item) {
-  item.title = NEW_TITLE;
-  return item.update();
-}, function(err){
-  console.log('Error: ' + JSON.stringify(err));
-  return null; })
-.then(function(updatedItem) {
-  console.log('Updating is success!' + JSON.stringify(updatedItem));
-});
-*/
-        monaca.cloud.User.autoLogin()
-        .then(function(result){
-            shared.userid = result._userid;
-            app.navi.replacePage('top.html',{animation:"none"});
-        },function(err){
-            app.navi.replacePage('signup.html',{animation:"none"});
-        });
+    angular.module("controllerModule", [])
+    .controller('firstCtrl',['shared','$scope',function(shared,$scope){        
+        var _this=this;
+        _this.loading = true,
+        _this.onStartup = function(){
+            _this.loading = true;
+            shared.startup().then(
+                function(res){
+                     app.navi.replacePage('top.html',{animation:"none"});
+                },
+                function(err){_this.loading=false;$scope.$apply();}
+            );
+        };
+        _this.onStartup();
+    }])
+    .controller('topCtrl',['shared',function(shared){
     }])
     .controller('signupCtrl',['shared','$scope',function(shared,$scope){
         console.log('signupCtrl');
@@ -59,14 +43,21 @@ memo.findOneMine(CRITERIA)
         _this.onGoLogin = function(){
             app.navi.replacePage('login.html',{animation:"none"});    
         };
-        var _uuid = shared.uuid();
-        
+        var _uuid = shared.uuid();        
         
         shared.startup().then(
              function(res){ console.log(res); },
              function(res){ console.log(res); }
         );
         
+        ons.ready(function(){
+           console.log('ons.ready2');
+           monaca.getDeviceId(function(id){
+            console.log('id:'+id);
+               _this.sample = id;
+               $scope.$apply();
+           }); 
+        });
         
     }])
     .controller('loginCtrl',['shared','$scope',function(shared,$scope){
@@ -91,7 +82,7 @@ memo.findOneMine(CRITERIA)
             app.navi.replacePage('signup.html',{"animation":"none"});    
         };
     }])
-    .controller('topCtrl',['shared','$scope',function(shared,$scope){
+    .controller('top2Ctrl',['shared','$scope',function(shared,$scope){
         var _this = this,
             _diary = monaca.cloud.Collection("idea"),
             _permission = {'public':'r'},
